@@ -5,16 +5,16 @@ import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.ListView
+import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.IntegerRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
 
-    var data = mutableListOf<String>()
+    private var data = mutableListOf<String>()
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,14 +40,14 @@ class MainActivity : AppCompatActivity() {
 
         val _btnTambah = findViewById<Button>(R.id.btnTambah)
         _btnTambah.setOnClickListener{
-            var dtAkhir = Integer.parseInt(data.get(data.size-1)) + 1
+            val dtAkhir = Integer.parseInt(data[data.size-1]) + 1
             data.add(dtAkhir.toString())
             lvAdapter.notifyDataSetChanged()
         }
 
         _lv1.setOnItemClickListener { parent, view, position, id ->
             Toast.makeText(
-                this, "${data[position]}",
+                this, data[position],
                 Toast.LENGTH_LONG
             ).show()
         }
@@ -57,5 +57,23 @@ class MainActivity : AppCompatActivity() {
             data.removeFirst()
             lvAdapter.notifyDataSetChanged()
         }
+
+        val _sv1 = findViewById<SearchView>(R.id.sv1)
+
+        _sv1.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (lvAdapter.equals(query)) {
+                    lvAdapter.filter.filter(query)
+                } else {
+                    Toast.makeText(this@MainActivity, "No Language found..", Toast.LENGTH_LONG)
+                        .show()
+                }
+                return false
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                lvAdapter.filter.filter(newText)
+                return false
+            }
+        })
     }
 }

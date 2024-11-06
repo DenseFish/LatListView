@@ -10,6 +10,12 @@
     android:layout_weight="10">
 
 
+    <SearchView
+        android:id="@+id/sv1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
     <ListView
         android:id="@+id/lv1"
         android:layout_width="match_parent"
@@ -20,8 +26,9 @@
         android:id="@+id/btnTambah"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="Tambah Data"
-        android:layout_weight="1"/>
+        tools:ignore="TouchTargetSizeCheck" />
 
     <Button
         android:id="@+id/btnHapus"
